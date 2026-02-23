@@ -1,5 +1,17 @@
+import type { Metadata } from 'next'
+
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+
+export const metadata: Metadata = {
+  title: 'Polityka prywatności',
+  description:
+    'Polityka prywatności serwisu Basenomat.pl – zasady przetwarzania danych osobowych oraz wykorzystywania plików cookies.',
+  robots: {
+    index: true,
+    follow: true,
+  },
+}
 
 export default function PrivacyPolicyPage() {
   return (

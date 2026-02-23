@@ -5,9 +5,12 @@ import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 
 export const metadata: Metadata = {
-  title: 'Kontakt | Basenomat.pl',
+  title: 'Kontakt',
   description:
     'Skontaktuj się z nami. Wyślij wiadomość przez formularz kontaktowy — odpowiemy najszybciej jak to możliwe.',
+  alternates: {
+    canonical: 'https://basenomat.pl/kontakt/',
+  },
 }
 
 export default function KontaktPage() {
