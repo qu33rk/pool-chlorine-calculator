@@ -18,11 +18,11 @@ export default function Home() {
             <span className="mr-2">✨</span> Nowość: Kalkulator pH wody
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
-            Twój asystent w <br className="hidden md:block"/>
-            <span className="bg-gradient-to-r from-blue-500 to-teal-400 text-transparent bg-clip-text">pielęgnacji basenu</span>
+            Kalkulator basenu <br className="hidden md:block"/>
+            <span className="bg-gradient-to-r from-blue-500 to-teal-400 text-transparent bg-clip-text">online za darmo</span>
           </h1>
           <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-600">
-            Zadbaj o krystalicznie czystą wodę bez skomplikowanych obliczeń. Nasze narzędzia pomogą Ci precyzyjnie dobrać chemię basenową w kilka sekund.
+            Oblicz dawkowanie chloru, skoryguj pH wody i sprawdź objętość basenu w kilka sekund. Nasz kalkulator basenu dobierze chemię basenową precyzyjnie i bez skomplikowanych wzorów.
           </p>
           <div className="mt-10 flex justify-center gap-4">
             <a className="px-8 py-3.5 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-semibold text-lg shadow-xl shadow-blue-500/20 transition-all hover:-translate-y-1 flex items-center gap-2" href="#tools">
@@ -40,9 +40,9 @@ export default function Home() {
       <section className="py-20 bg-blue-50/50" id="jak-to-dziala">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">Jak to działa?</h2>
+            <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">Jak działa kalkulator basenu?</h2>
             <p className="mt-4 text-lg text-slate-600">
-              To proste — wybierz kalkulator, wpisz dane i otrzymaj gotową dawkę oraz kolejne kroki.
+              To proste — wybierz kalkulator basenu, wpisz wymiary i parametry wody, a otrzymasz gotową dawkę oraz kolejne kroki.
             </p>
           </div>
 
@@ -51,9 +51,9 @@ export default function Home() {
               <div className="h-10 w-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
                 <span className="material-icons-round">touch_app</span>
               </div>
-              <h3 className="text-lg font-bold text-slate-900">1. Wybierz narzędzie</h3>
+              <h3 className="text-lg font-bold text-slate-900">1. Wybierz kalkulator</h3>
               <p className="mt-2 text-sm text-slate-600">
-                Przejdź do kalkulatora chloru, pH lub objętości wody — zależnie od tego co chcesz policzyć.
+                Przejdź do kalkulatora chloru, pH lub objętości basenu — zależnie od tego co chcesz policzyć.
               </p>
             </div>
             <div className="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm">
@@ -82,8 +82,8 @@ export default function Home() {
       <section className="py-20 bg-white relative" id="tools">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">Narzędzia basenowe</h2>
-            <p className="mt-4 text-lg text-slate-600">Wybierz odpowiednie narzędzie, aby rozpocząć obliczenia.</p>
+            <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">Kalkulatory basenowe</h2>
+            <p className="mt-4 text-lg text-slate-600">Wybierz kalkulator basenu dopasowany do Twoich potrzeb i rozpocznij obliczenia.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="col-span-1 md:col-span-2 lg:col-span-2 relative group rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row items-center md:items-start gap-8 overflow-hidden">
@@ -150,6 +150,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl text-center mb-16">Dlaczego warto korzystać z kalkulatora basenu?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
             <div>
               <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-6">
@@ -175,7 +176,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold text-slate-900">Szybkość</h3>
               <p className="mt-3 text-slate-600">
-                Wyniki w ułamku sekundy. Zapomnij o skomplikowanych wzorach i kalkulatorze w ręku.
+                Wyniki w ułamku sekundy. Kalkulator basenu online zastąpi skomplikowane wzory i ręczne obliczenia.
               </p>
             </div>
           </div>

@@ -9,12 +9,14 @@ const SITE_URL = 'https://basenomat.pl'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Basenomat.pl - Twój asystent w pielęgnacji basenu',
+    default: 'Kalkulator basenu online — chlor, pH, objętość wody | Basenomat.pl',
     template: '%s | Basenomat.pl',
   },
   description:
-    'Zadbaj o krystalicznie czystą wodę bez skomplikowanych obliczeń. Nasze narzędzia pomogą Ci precyzyjnie dobrać chemię basenową w kilka sekund.',
+    'Darmowy kalkulator basenu online. Oblicz dawkowanie chloru, skoryguj pH wody i sprawdź objętość basenu w kilka sekund. Precyzyjne wyniki dla popularnych produktów.',
   keywords: [
+    'kalkulator basenu',
+    'kalkulator basenowy',
     'kalkulator chloru',
     'chlor do basenu',
     'dawkowanie chloru',
@@ -47,15 +49,15 @@ export const metadata: Metadata = {
     locale: 'pl_PL',
     url: SITE_URL,
     siteName: 'Basenomat.pl',
-    title: 'Basenomat.pl - Twój asystent w pielęgnacji basenu',
+    title: 'Kalkulator basenu online — chlor, pH, objętość wody | Basenomat.pl',
     description:
-      'Zadbaj o krystalicznie czystą wodę bez skomplikowanych obliczeń. Kalkulatory chloru, pH i objętości basenu za darmo.',
+      'Darmowy kalkulator basenu: oblicz dawkowanie chloru, skoryguj pH i sprawdź objętość wody. Szybko i precyzyjnie.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Basenomat.pl - Twój asystent w pielęgnacji basenu',
+    title: 'Kalkulator basenu online — chlor, pH, objętość wody | Basenomat.pl',
     description:
-      'Darmowe kalkulatory chemii basenowej: chlor, pH, objętość wody. Szybko, prosto i precyzyjnie.',
+      'Darmowy kalkulator basenu: chlor, pH, objętość wody. Szybko, prosto i precyzyjnie.',
   },
 }
 
@@ -68,7 +70,7 @@ const jsonLd = {
       url: SITE_URL,
       name: 'Basenomat.pl',
       description:
-        'Twój asystent w pielęgnacji basenu – kalkulatory chloru, pH i objętości wody.',
+        'Darmowy kalkulator basenu online – oblicz dawkowanie chloru, pH i objętość wody.',
       inLanguage: 'pl-PL',
     },
     {
