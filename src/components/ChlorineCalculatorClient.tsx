@@ -4,9 +4,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 interface PoolDimensions {
-  length: number
-  width: number
-  depth: number
+  length: number | ''
+  width: number | ''
+  depth: number | ''
   shape: 'rectangle' | 'round'
 }
 
@@ -50,12 +50,16 @@ export default function ChlorineCalculatorClient() {
   ]
 
   const calculateVolume = (): number => {
+    const length = dimensions.length || 0
+    const width = dimensions.width || 0
+    const depth = dimensions.depth || 0
+
     if (dimensions.shape === 'rectangle') {
-      return dimensions.length * dimensions.width * dimensions.depth * 1000
+      return length * width * depth * 1000
     }
 
-    const radius = dimensions.length / 2
-    return Math.PI * radius * radius * dimensions.depth * 1000
+    const radius = length / 2
+    return Math.PI * radius * radius * depth * 1000
   }
 
   const calculateChemistry = () => {
@@ -91,7 +95,7 @@ export default function ChlorineCalculatorClient() {
     if (field === 'shape') return
     setDimensions((prev) => ({
       ...prev,
-      [field]: (prev[field] as number) + 0.1,
+      [field]: ((prev[field] as number) || 0) + 0.1,
     }))
   }
 
@@ -99,7 +103,7 @@ export default function ChlorineCalculatorClient() {
     if (field === 'shape') return
     setDimensions((prev) => ({
       ...prev,
-      [field]: Math.max(0.1, (prev[field] as number) - 0.1),
+      [field]: Math.max(0.1, ((prev[field] as number) || 0) - 0.1),
     }))
   }
 
@@ -108,26 +112,6 @@ export default function ChlorineCalculatorClient() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
           <div className="p-8 sm:p-12">
-            {/* Progress Steps */}
-            <div className="flex justify-center mb-8">
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-slate-300 text-slate-600 flex items-center justify-center text-sm font-semibold">1</div>
-                  <span className="ml-2 text-sm font-medium text-slate-500">KSZTAŁT</span>
-                </div>
-                <div className="w-8 h-px bg-slate-300"></div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-slate-300 text-slate-600 flex items-center justify-center text-sm font-semibold">2</div>
-                  <span className="ml-2 text-sm font-medium text-slate-500">WYMIARY</span>
-                </div>
-                <div className="w-8 h-px bg-slate-300"></div>
-                <div className="flex items-center">
-                  <div className="w-8 h-8 rounded-full bg-slate-300 text-slate-500 flex items-center justify-center text-sm font-semibold">3</div>
-                  <span className="ml-2 text-sm font-medium text-slate-500">PRODUKT</span>
-                </div>
-              </div>
-            </div>
-
             {/* Shape Selection */}
             <div className="mb-8">
               <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">
@@ -184,8 +168,10 @@ export default function ChlorineCalculatorClient() {
                       value={dimensions.length}
                       onChange={(e) => {
                         const value = e.target.value
+                        if (value === '') { setDimensions((prev) => ({ ...prev, length: '' })); return }
                         if (value.length > 1 && value.startsWith('0') && !value.startsWith('0.')) return
-                        setDimensions((prev) => ({ ...prev, length: parseFloat(value) || 0 }))
+                        const parsed = parseFloat(value)
+                        if (!Number.isNaN(parsed)) setDimensions((prev) => ({ ...prev, length: parsed }))
                       }}
                       className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 py-3 pl-4 pr-28 shadow-sm placeholder-slate-300"
                       placeholder="np. 8.0"
@@ -219,8 +205,10 @@ export default function ChlorineCalculatorClient() {
                         value={dimensions.width}
                         onChange={(e) => {
                           const value = e.target.value
+                          if (value === '') { setDimensions((prev) => ({ ...prev, width: '' })); return }
                           if (value.length > 1 && value.startsWith('0') && !value.startsWith('0.')) return
-                          setDimensions((prev) => ({ ...prev, width: parseFloat(value) || 0 }))
+                          const parsed = parseFloat(value)
+                          if (!Number.isNaN(parsed)) setDimensions((prev) => ({ ...prev, width: parsed }))
                         }}
                         className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 py-3 pl-4 pr-28 shadow-sm placeholder-slate-300"
                         placeholder="np. 4.0"
@@ -255,8 +243,10 @@ export default function ChlorineCalculatorClient() {
                     value={dimensions.depth}
                     onChange={(e) => {
                       const value = e.target.value
+                      if (value === '') { setDimensions((prev) => ({ ...prev, depth: '' })); return }
                       if (value.length > 1 && value.startsWith('0') && !value.startsWith('0.')) return
-                      setDimensions((prev) => ({ ...prev, depth: parseFloat(value) || 0 }))
+                      const parsed = parseFloat(value)
+                      if (!Number.isNaN(parsed)) setDimensions((prev) => ({ ...prev, depth: parsed }))
                     }}
                     className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 py-3 pl-4 pr-28 shadow-sm placeholder-slate-300"
                     placeholder="np. 1.5"

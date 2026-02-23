@@ -4,9 +4,9 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 
 interface PoolDimensions {
-  length: number
-  width: number
-  depth: number
+  length: number | ''
+  width: number | ''
+  depth: number | ''
   shape: 'rectangle' | 'round'
 }
 
@@ -31,8 +31,8 @@ export default function PhWaterCalculatorClient() {
     shape: 'rectangle',
   })
 
-  const [measuredPh, setMeasuredPh] = useState<number>(7.2)
-  const [targetPh, setTargetPh] = useState<number>(7.4)
+  const [measuredPh, setMeasuredPh] = useState<number | ''>(7.2)
+  const [targetPh, setTargetPh] = useState<number | ''>(7.4)
 
   const [volumeLiters, setVolumeLiters] = useState<number | null>(null)
   const [products, setProducts] = useState<CalculatedPhProduct[] | null>(null)
@@ -45,19 +45,23 @@ export default function PhWaterCalculatorClient() {
   ]
 
   const calculateVolumeLiters = (): number => {
+    const length = dimensions.length || 0
+    const width = dimensions.width || 0
+    const depth = dimensions.depth || 0
+
     if (dimensions.shape === 'rectangle') {
-      return dimensions.length * dimensions.width * dimensions.depth * 1000
+      return length * width * depth * 1000
     }
 
-    const radius = dimensions.length / 2
-    return Math.PI * radius * radius * dimensions.depth * 1000
+    const radius = length / 2
+    return Math.PI * radius * radius * depth * 1000
   }
 
   const incrementValue = (field: keyof PoolDimensions) => {
     if (field === 'shape') return
     setDimensions((prev) => ({
       ...prev,
-      [field]: (prev[field] as number) + 0.1,
+      [field]: ((prev[field] as number) || 0) + 0.1,
     }))
   }
 
@@ -65,12 +69,14 @@ export default function PhWaterCalculatorClient() {
     if (field === 'shape') return
     setDimensions((prev) => ({
       ...prev,
-      [field]: Math.max(0.1, (prev[field] as number) - 0.1),
+      [field]: Math.max(0.1, ((prev[field] as number) || 0) - 0.1),
     }))
   }
 
   const delta = useMemo(() => {
-    const d = targetPh - measuredPh
+    const t = targetPh || 0
+    const m = measuredPh || 0
+    const d = t - m
     return Number.isFinite(d) ? d : 0
   }, [targetPh, measuredPh])
 
@@ -166,8 +172,10 @@ export default function PhWaterCalculatorClient() {
                       value={dimensions.length}
                       onChange={(e) => {
                         const value = e.target.value
+                        if (value === '') { setDimensions((prev) => ({ ...prev, length: '' })); return }
                         if (value.length > 1 && value.startsWith('0') && !value.startsWith('0.')) return
-                        setDimensions((prev) => ({ ...prev, length: parseFloat(value) || 0 }))
+                        const parsed = parseFloat(value)
+                        if (!Number.isNaN(parsed)) setDimensions((prev) => ({ ...prev, length: parsed }))
                       }}
                       className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 py-3 pl-4 pr-28 shadow-sm placeholder-slate-300"
                       placeholder={dimensions.shape === 'round' ? 'np. 4.0' : 'np. 8.0'}
@@ -201,8 +209,10 @@ export default function PhWaterCalculatorClient() {
                         value={dimensions.width}
                         onChange={(e) => {
                           const value = e.target.value
+                          if (value === '') { setDimensions((prev) => ({ ...prev, width: '' })); return }
                           if (value.length > 1 && value.startsWith('0') && !value.startsWith('0.')) return
-                          setDimensions((prev) => ({ ...prev, width: parseFloat(value) || 0 }))
+                          const parsed = parseFloat(value)
+                          if (!Number.isNaN(parsed)) setDimensions((prev) => ({ ...prev, width: parsed }))
                         }}
                         className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 py-3 pl-4 pr-28 shadow-sm placeholder-slate-300"
                         placeholder="np. 4.0"
@@ -237,8 +247,10 @@ export default function PhWaterCalculatorClient() {
                     value={dimensions.depth}
                     onChange={(e) => {
                       const value = e.target.value
+                      if (value === '') { setDimensions((prev) => ({ ...prev, depth: '' })); return }
                       if (value.length > 1 && value.startsWith('0') && !value.startsWith('0.')) return
-                      setDimensions((prev) => ({ ...prev, depth: parseFloat(value) || 0 }))
+                      const parsed = parseFloat(value)
+                      if (!Number.isNaN(parsed)) setDimensions((prev) => ({ ...prev, depth: parsed }))
                     }}
                     className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 py-3 pl-4 pr-28 shadow-sm placeholder-slate-300"
                     placeholder="np. 1.5"
@@ -277,7 +289,12 @@ export default function PhWaterCalculatorClient() {
                   <label className="block text-base font-medium text-slate-900 mb-2">Zmierzone pH</label>
                   <input
                     value={measuredPh}
-                    onChange={(e) => setMeasuredPh(parseFloat(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const value = e.target.value
+                      if (value === '') { setMeasuredPh(''); return }
+                      const parsed = parseFloat(value)
+                      if (!Number.isNaN(parsed)) setMeasuredPh(parsed)
+                    }}
                     className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 py-3 px-4 shadow-sm placeholder-slate-300"
                     placeholder="np. 7.2"
                     type="number"
@@ -290,7 +307,12 @@ export default function PhWaterCalculatorClient() {
                   <label className="block text-base font-medium text-slate-900 mb-2">Docelowe pH</label>
                   <input
                     value={targetPh}
-                    onChange={(e) => setTargetPh(parseFloat(e.target.value) || 0)}
+                    onChange={(e) => {
+                      const value = e.target.value
+                      if (value === '') { setTargetPh(''); return }
+                      const parsed = parseFloat(value)
+                      if (!Number.isNaN(parsed)) setTargetPh(parsed)
+                    }}
                     className="w-full rounded-xl border-slate-300 bg-white text-slate-900 focus:border-blue-500 focus:ring-blue-500 py-3 px-4 shadow-sm placeholder-slate-300"
                     placeholder="np. 7.4"
                     type="number"
@@ -325,7 +347,7 @@ export default function PhWaterCalculatorClient() {
                 <div className="mb-4">
                   <span className="text-slate-600">Zmiana pH: </span>
                   <span className="font-semibold text-slate-900">
-                    {measuredPh.toFixed(1)} → {targetPh.toFixed(1)} (Δ {delta > 0 ? '+' : ''}{delta.toFixed(2)})
+                    {(measuredPh || 0).toFixed(1)} → {(targetPh || 0).toFixed(1)} (Δ {delta > 0 ? '+' : ''}{delta.toFixed(2)})
                   </span>
                 </div>
 
