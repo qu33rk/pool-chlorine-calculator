@@ -4,8 +4,9 @@ import { notFound } from 'next/navigation'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
-import { PortableText } from '@/sanity/portable-text'
 import { getAllPostSlugs, getPostBySlug } from '@/sanity/queries'
+import type { Block } from '@/sanity/queries'
+import { PortableText } from '@/sanity/portable-text'
 
 export const dynamic = 'force-static'
 export const dynamicParams = false
@@ -143,7 +144,14 @@ export default async function BlogPostPage({ params }: Props) {
           )}
 
           <div className="mt-8">
-            {post.body && <PortableText blocks={post.body} />}
+            {post.body && (
+              typeof post.body === 'string'
+                ? <div
+                    className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:leading-relaxed prose-a:text-blue-600 prose-blockquote:border-blue-400 prose-blockquote:text-slate-600"
+                    dangerouslySetInnerHTML={{ __html: post.body }}
+                  />
+                : <PortableText blocks={post.body as Block[]} />
+            )}
           </div>
         </article>
       </main>

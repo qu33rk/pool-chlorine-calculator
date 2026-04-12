@@ -21,7 +21,7 @@ export type PostListItem = {
 }
 
 export type Post = PostListItem & {
-  body: Block[]
+  body: Block[] | string | null
   author?: { name: string }
   seoTitle?: string
   seoDescription?: string
@@ -41,7 +41,7 @@ const POST_LIST_FIELDS = `
   _id,
   title,
   slug,
-  excerpt,
+  "excerpt": metaDescription,
   publishedAt,
   "mainImage": mainImage { "asset": asset->{ url }, alt },
   "categories": categories[]->{ title }
@@ -57,10 +57,10 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   const post = await sanityFetch<Post | null>(
     `*[_type == "article" && slug.current == $slug][0] {
       ${POST_LIST_FIELDS},
-      body,
+      "body": content,
       "author": author->{ name },
-      seoTitle,
-      seoDescription
+      "seoTitle": metaTitle,
+      "seoDescription": metaDescription
     }`,
     { slug },
   )
