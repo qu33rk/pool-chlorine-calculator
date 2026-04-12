@@ -34,9 +34,6 @@ export default function Navbar({ showHomeCta = false }: { showHomeCta?: boolean 
           </Link>
 
           <div className="hidden md:flex items-center gap-4">
-            <Link href="/blog" className="text-slate-700 font-medium hover:text-blue-500 transition-colors px-2 py-1">
-              Blog
-            </Link>
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen((v) => !v)}
@@ -65,14 +62,13 @@ export default function Navbar({ showHomeCta = false }: { showHomeCta?: boolean 
               )}
             </div>
 
-            {showHomeCta && (
-              <a
-                className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-full font-medium transition-transform transform hover:scale-105 shadow-lg shadow-blue-500/30"
-                href="#tools"
-              >
-                Zacznij teraz
-              </a>
-            )}
+            <Link
+              href="/blog"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-full font-medium transition-transform transform hover:scale-105 shadow-lg shadow-blue-500/30 flex items-center gap-1.5"
+            >
+              <span className="material-icons-round text-base">article</span>
+              Blog
+            </Link>
           </div>
 
           <div className="md:hidden flex items-center">

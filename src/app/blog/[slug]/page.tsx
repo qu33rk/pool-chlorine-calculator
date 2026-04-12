@@ -91,7 +91,7 @@ export default async function BlogPostPage({ params }: Props) {
       />
 
       <main className="py-10">
-        <article className="max-w-3xl mx-auto px-4 sm:px-6">
+        <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {post.categories && post.categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {post.categories.map((cat) => (
