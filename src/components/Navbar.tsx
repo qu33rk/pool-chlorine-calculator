@@ -34,6 +34,9 @@ export default function Navbar({ showHomeCta = false }: { showHomeCta?: boolean 
           </Link>
 
           <div className="hidden md:flex items-center gap-4">
+            <Link href="/blog" className="text-slate-700 font-medium hover:text-blue-500 transition-colors px-2 py-1">
+              Blog
+            </Link>
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen((v) => !v)}
@@ -86,7 +89,15 @@ export default function Navbar({ showHomeCta = false }: { showHomeCta?: boolean 
       {mobileOpen && (
         <div className="md:hidden border-t border-slate-100 bg-white">
           <div className="px-4 py-2">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 pt-2 pb-1">Narzędzia</p>
+            <Link
+              href="/blog"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-3 px-2 py-3 text-slate-700 hover:text-blue-500 transition-colors text-sm font-medium border-b border-slate-100"
+            >
+              <span className="material-icons-round text-lg text-blue-400">article</span>
+              Blog
+            </Link>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-2 pt-3 pb-1">Narzędzia</p>
             {tools.map((tool) => (
               <Link
                 key={tool.href}

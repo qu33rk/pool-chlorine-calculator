@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 
-import Navbar from '@/components/Navbar'
+import Breadcrumbs from '@/components/Breadcrumbs'
 import Footer from '@/components/Footer'
+import Navbar from '@/components/Navbar'
 
 export const metadata: Metadata = {
   title: 'Polityka prywatności',
@@ -17,7 +18,8 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main className="py-20">
+      <Breadcrumbs items={[{ label: 'Polityka prywatności', href: '/polityka-prywatnosci' }]} />
+      <main className="py-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Polityka prywatności</h1>
           <p className="mt-4 text-slate-600">

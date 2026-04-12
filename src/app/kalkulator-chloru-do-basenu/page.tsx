@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import ChlorineCalculatorClient from '@/components/ChlorineCalculatorClient'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
@@ -44,8 +45,9 @@ export default function KalkulatorChloruDoBasenuPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Breadcrumbs items={[{ label: 'Narzędzia' }, { label: 'Kalkulator chloru do basenu', href: '/kalkulator-chloru-do-basenu' }]} />
       <main>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4">
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Kalkulator chloru do basenu</h1>
           <p className="mt-3 text-slate-600">
             Podaj kształt i wymiary basenu, a następnie porównaj ile chloru w granulacie potrzebujesz dla różnych produktów.

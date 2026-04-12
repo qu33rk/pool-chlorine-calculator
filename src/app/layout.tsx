@@ -89,14 +89,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pl" className="bg-blue-50 text-slate-800 font-sans antialiased">
-      <head>
+    <html lang="pl" className="bg-blue-50 text-slate-800 font-sans antialiased" suppressHydrationWarning>
+      <body className={inter.className}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body className={inter.className}>{children}</body>
+        {children}
+      </body>
     </html>
   )
 }

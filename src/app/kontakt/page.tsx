@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import Breadcrumbs from '@/components/Breadcrumbs'
 import ContactFormClient from '@/components/ContactFormClient'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
@@ -17,7 +18,8 @@ export default function KontaktPage() {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main className="py-20">
+      <Breadcrumbs items={[{ label: 'Kontakt', href: '/kontakt' }]} />
+      <main className="py-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Kontakt</h1>
           <p className="mt-3 text-slate-600">

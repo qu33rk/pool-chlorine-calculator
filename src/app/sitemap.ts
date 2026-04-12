@@ -20,6 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/kalkulator-chloru-do-basenu',
     '/kalkulator-ph-wody',
     '/kalkulator-objetosci-basenu',
+    '/blog',
     '/kontakt',
     '/polityka-prywatnosci',
   ]
