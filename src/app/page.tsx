@@ -9,16 +9,20 @@ export default function Home() {
       
       {/* Hero Section */}
       <header className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40">
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 -left-24 w-72 h-72 bg-teal-400/20 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
+          <img
+            src="/hero-water.webp"
+            alt=""
+            className="w-full h-full object-cover"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-white/70"></div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
-            Kalkulator basenu <br className="hidden md:block"/>
-            <span className="bg-gradient-to-r from-blue-500 to-teal-400 text-transparent bg-clip-text">online za darmo</span>
+            Kalkulator basenu online
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-600">
+          <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-700">
             Oblicz dawkowanie chloru, skoryguj pH wody i sprawdź objętość basenu w kilka sekund. Nasz kalkulator basenu dobierze chemię basenową precyzyjnie i bez skomplikowanych wzorów.
           </p>
           <div className="mt-10 flex justify-center gap-4">

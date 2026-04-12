@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { useState, useRef, useEffect } from 'react'
 
 const tools = [
-  { href: '/kalkulator-chloru-do-basenu', label: 'Kalkulator chloru', icon: 'science' },
-  { href: '/kalkulator-ph-wody', label: 'Regulacja pH', icon: 'opacity' },
-  { href: '/kalkulator-objetosci-basenu', label: 'Objętość basenu', icon: 'water' },
+  { href: '/kalkulator-chloru-do-basenu', label: 'Kalkulator chloru do basenu', icon: 'science' },
+  { href: '/kalkulator-ph-wody', label: 'Kalkulator pH wody', icon: 'opacity' },
+  { href: '/kalkulator-objetosci-basenu', label: 'Kalkulator objętości basenu', icon: 'water' },
 ]
 
 export default function Navbar({ showHomeCta = false }: { showHomeCta?: boolean }) {
