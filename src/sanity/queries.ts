@@ -49,13 +49,13 @@ const POST_LIST_FIELDS = `
 
 export async function getAllPosts(): Promise<PostListItem[]> {
   return sanityFetch<PostListItem[]>(
-    `*[_type == "post"] | order(publishedAt desc) { ${POST_LIST_FIELDS} }`,
+    `*[_type == "article"] | order(publishedAt desc) { ${POST_LIST_FIELDS} }`,
   )
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const post = await sanityFetch<Post | null>(
-    `*[_type == "post" && slug.current == $slug][0] {
+    `*[_type == "article" && slug.current == $slug][0] {
       ${POST_LIST_FIELDS},
       body,
       "author": author->{ name },
@@ -69,7 +69,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
 export async function getAllPostSlugs(): Promise<string[]> {
   const posts = await sanityFetch<{ slug: { current: string } }[]>(
-    `*[_type == "post"]{ slug }`,
+    `*[_type == "article"]{ slug }`,
   )
   return Array.isArray(posts) ? posts.map((p) => p.slug.current) : []
 }
