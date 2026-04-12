@@ -43,7 +43,7 @@ const POST_LIST_FIELDS = `
   slug,
   "excerpt": metaDescription,
   publishedAt,
-  "mainImage": mainImage { "asset": asset->{ url }, alt },
+  "mainImage": featuredImage { "asset": asset->{ url }, alt },
   "categories": categories[]->{ title }
 `
 
