@@ -8,16 +8,14 @@ export default function Home() {
       <Navbar showHomeCta />
       
       {/* Hero Section */}
-      <header className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40">
-        <div className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none">
-          <img
-            src="/hero-water.webp"
-            alt=""
-            className="w-full h-full object-cover"
-            aria-hidden="true"
-          />
-          <div className="absolute inset-0 bg-white/70"></div>
-        </div>
+      <header
+        className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.72), rgba(255,255,255,0.72)), url(/hero-water.webp)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
             Kalkulator basenu online
