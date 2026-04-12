@@ -2,6 +2,3 @@
   command = "npm run build"
   publish = "out"
   environment = { SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY" }
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
