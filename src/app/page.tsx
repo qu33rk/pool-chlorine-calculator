@@ -11,16 +11,16 @@ export default function Home() {
       <header
         className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40"
         style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.72), rgba(255,255,255,0.72)), url(/hero-water.webp)',
+          backgroundImage: 'linear-gradient(rgba(0,20,60,0.45), rgba(0,20,60,0.55)), url(/hero-water.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 drop-shadow-lg">
             Kalkulator basenu online
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-700">
+          <p className="mt-4 max-w-2xl mx-auto text-xl text-blue-100">
             Oblicz dawkowanie chloru, skoryguj pH wody i sprawdź objętość basenu w kilka sekund. Nasz kalkulator basenu dobierze chemię basenową precyzyjnie i bez skomplikowanych wzorów.
           </p>
           <div className="mt-10 flex justify-center gap-4">
@@ -28,7 +28,7 @@ export default function Home() {
               <span className="material-icons-round">calculate</span>
               Odkryj kalkulatory
             </a>
-            <a className="px-8 py-3.5 rounded-full bg-white border border-slate-200 text-slate-700 font-semibold text-lg hover:bg-slate-50 transition-all flex items-center gap-2" href="#jak-to-dziala">
+            <a className="px-8 py-3.5 rounded-full bg-white/20 border border-white/40 text-white font-semibold text-lg hover:bg-white/30 transition-all flex items-center gap-2 backdrop-blur-sm" href="#jak-to-dziala">
               <span className="material-icons-round">school</span>
               Jak to działa?
             </a>
