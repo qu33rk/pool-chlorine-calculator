@@ -14,9 +14,6 @@ export default function Home() {
           <div className="absolute top-1/2 -left-24 w-72 h-72 bg-teal-400/20 rounded-full blur-3xl"></div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-600 text-sm font-semibold mb-6 border border-blue-200">
-            <span className="mr-2">✨</span> Nowość: Kalkulator pH wody
-          </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
             Kalkulator basenu <br className="hidden md:block"/>
             <span className="bg-gradient-to-r from-blue-500 to-teal-400 text-transparent bg-clip-text">online za darmo</span>
