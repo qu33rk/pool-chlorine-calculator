@@ -45,7 +45,7 @@ export default function KalkulatorPhWodyPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Breadcrumbs items={[{ label: 'Narzędzia' }, { label: 'Kalkulator pH wody', href: '/kalkulator-ph-wody' }]} />
+      <Breadcrumbs items={[{ label: 'Kalkulator pH wody', href: '/kalkulator-ph-wody' }]} />
       <main>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4">
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Kalkulator pH wody</h1>

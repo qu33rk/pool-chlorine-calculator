@@ -45,7 +45,7 @@ export default function KalkulatorChloruDoBasenuPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Breadcrumbs items={[{ label: 'Narzędzia' }, { label: 'Kalkulator chloru do basenu', href: '/kalkulator-chloru-do-basenu' }]} />
+      <Breadcrumbs items={[{ label: 'Kalkulator chloru do basenu', href: '/kalkulator-chloru-do-basenu' }]} />
       <main>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4">
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Kalkulator chloru do basenu</h1>

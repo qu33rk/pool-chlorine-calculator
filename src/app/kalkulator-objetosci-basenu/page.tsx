@@ -45,7 +45,7 @@ export default function KalkulatorObjetosciBasenuPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Breadcrumbs items={[{ label: 'Narzędzia' }, { label: 'Kalkulator objętości basenu', href: '/kalkulator-objetosci-basenu' }]} />
+      <Breadcrumbs items={[{ label: 'Kalkulator objętości basenu', href: '/kalkulator-objetosci-basenu' }]} />
       <main>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4">
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Kalkulator objętości basenu</h1>
