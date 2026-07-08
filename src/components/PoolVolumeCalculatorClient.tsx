@@ -10,6 +10,80 @@ interface PoolDimensions {
   shape: 'rectangle' | 'round'
 }
 
+interface RecommendedPool {
+  id: string
+  name: string
+  brand: string
+  volumeM3: number
+  shape: 'rectangle' | 'round'
+  dimensions: string
+  depth: string
+  affiliateUrl: string
+  features: string[]
+  image?: string
+  minVolume: number
+  maxVolume: number
+}
+
+const recommendedPools: RecommendedPool[] = [
+  {
+    id: 'intex-metal-frame-300x200',
+    name: 'Basen prostokątny 300×200×75 cm',
+    brand: 'Intex',
+    volumeM3: 4.5,
+    shape: 'rectangle',
+    dimensions: '300 × 200 cm',
+    depth: '75 cm',
+    affiliateUrl: 'https://amzn.to/4yaKXb7',
+    features: ['Stelaż metalowy', 'Folia 0.40 mm', 'Pompa filtrująca w zestawie', 'Łatwy montaż bez narzędzi'],
+    image: '/4.5.jpg',
+    minVolume: 3,
+    maxVolume: 5,
+  },
+  {
+    id: 'bestway-small-189x128x59',
+    name: 'Basen 189×128×59 cm',
+    brand: 'Generic',
+    volumeM3: 1.43,
+    shape: 'rectangle',
+    dimensions: '189 × 128 cm',
+    depth: '59 cm',
+    affiliateUrl: 'https://amzn.to/4yiPmsH',
+    features: ['Bardzo wytrzymały', 'Pompa filtrująca w zestawie', 'Pokrywa basenu'],
+    image: '/basen.jpg',
+    minVolume: 0,
+    maxVolume: 2.93,
+  },
+  {
+    id: 'bestway-medium-387x168x66',
+    name: 'Basen 387×168×66 cm',
+    brand: 'Generic',
+    volumeM3: 4.29,
+    shape: 'rectangle',
+    dimensions: '387 × 168 cm',
+    depth: '66 cm',
+    affiliateUrl: 'https://amzn.to/4aK2nBk',
+    features: ['Bardzo wytrzymały', 'Pompa filtrująca w zestawie', 'Pokrywa basenu'],
+    image: '/basen.jpg',
+    minVolume: 2.29,
+    maxVolume: 6.29,
+  },
+  {
+    id: 'bestway-large-453x208x84',
+    name: 'Basen 453×208×84 cm',
+    brand: 'Generic',
+    volumeM3: 7.92,
+    shape: 'rectangle',
+    dimensions: '453 × 208 cm',
+    depth: '84 cm',
+    affiliateUrl: 'https://amzn.to/4h0iezt',
+    features: ['Bardzo wytrzymały', 'Pompa filtrująca w zestawie', 'Pokrywa basenu'],
+    image: '/basen.jpg',
+    minVolume: 4.92,
+    maxVolume: 10.92,
+  },
+]
+
 export default function PoolVolumeCalculatorClient() {
   const [dimensions, setDimensions] = useState<PoolDimensions>({
     length: 8,
@@ -54,6 +128,19 @@ export default function PoolVolumeCalculatorClient() {
   }
 
   const volumeM3 = volumeLiters ? volumeLiters / 1000 : null
+
+  const visiblePools = volumeM3 !== null
+    ? recommendedPools.filter((p) => volumeM3 >= p.minVolume && volumeM3 <= p.maxVolume)
+          .sort((a, b) => Math.abs(a.volumeM3 - volumeM3) - Math.abs(b.volumeM3 - volumeM3))
+    : []
+
+  const bestMatchId = visiblePools[0]?.id
+
+  const isBestMatch = (pool: RecommendedPool) => {
+    if (volumeM3 === null || !bestMatchId) return false
+    const diff = Math.abs(pool.volumeM3 - volumeM3)
+    return pool.id === bestMatchId && diff <= volumeM3 * 0.3
+  }
 
   return (
     <div className="py-20 bg-blue-50/50">
@@ -258,6 +345,74 @@ export default function PoolVolumeCalculatorClient() {
                   >
                     Przejdź do kalkulatora chloru
                   </Link>
+                </div>
+              </div>
+            )}
+
+            {volumeLiters !== null && volumeM3 !== null && visiblePools.length > 0 && (
+              <div className="mt-8">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="material-icons-round text-blue-500">recommend</span>
+                  <h3 className="text-lg font-bold text-slate-900">Polecane baseny</h3>
+                </div>
+                <p className="text-sm text-slate-500 mb-5">
+                  Baseny o objętości zbliżonej do obliczonej ({volumeM3.toFixed(1)} m³)
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {visiblePools.map((pool) => (
+                    <div
+                      key={pool.id}
+                      className={`rounded-2xl border-2 bg-white overflow-hidden flex flex-col transition-all hover:shadow-lg ${
+                        isBestMatch(pool) ? 'border-blue-400' : 'border-slate-200'
+                      }`}
+                    >
+                      <a href={pool.affiliateUrl} target="_blank" rel="sponsored nofollow" className="relative h-48 bg-white flex items-center justify-center overflow-hidden group">
+                        {isBestMatch(pool) && (
+                          <span className="absolute top-3 left-3 z-10 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+                            Najlepsze dopasowanie
+                          </span>
+                        )}
+                        {pool.image ? (
+                          <img src={pool.image} alt={`${pool.brand} ${pool.name}`} className="max-w-full max-h-full object-contain p-2 transition-transform group-hover:scale-105" />
+                        ) : (
+                          <span className="material-icons-round text-7xl text-blue-200">pool</span>
+                        )}
+                      </a>
+
+                      <div className="p-5 flex flex-col flex-1">
+                        <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide">{pool.brand}</div>
+                        <div className="font-bold text-slate-900 mt-1">{pool.name}</div>
+
+                        <div className="flex flex-wrap items-center gap-2 mt-3">
+                          <span className="inline-flex items-center gap-1 bg-blue-50 text-blue-700 text-sm font-semibold px-3 py-1 rounded-lg">
+                            <span className="material-icons-round text-sm">water_drop</span>
+                            {pool.volumeM3} m³
+                          </span>
+                          <span className="text-sm text-slate-500">{pool.dimensions} × {pool.depth}</span>
+                        </div>
+
+                        <ul className="mt-4 space-y-1.5 flex-1">
+                          {pool.features.map((feature, i) => (
+                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                              <span className="material-icons-round text-emerald-500 text-sm mt-0.5">check_circle</span>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+
+                        <a
+                          href={pool.affiliateUrl}
+                          target="_blank"
+                          rel="sponsored nofollow"
+                          className="mt-5 w-full inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-xl transition-colors"
+                        >
+                          Sprawdź na Amazon
+                          <span className="material-icons-round text-lg">open_in_new</span>
+                        </a>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
