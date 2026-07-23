@@ -36,7 +36,7 @@ export default function Footer() {
             Developed by{' '}
             <a
               className="hover:text-blue-500"
-              href="https://www.linkedin.com/in/eryk-witkowski/"
+              href="https://erykwitkowski.pl"
               target="_blank"
               rel="noreferrer"
             >
