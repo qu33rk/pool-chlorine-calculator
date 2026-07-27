@@ -7,7 +7,7 @@ interface PoolDimensions {
   length: number | ''
   width: number | ''
   depth: number | ''
-  shape: 'rectangle' | 'round'
+  shape: 'rectangle' | 'round' | 'oval'
 }
 
 interface RecommendedPool {
@@ -103,6 +103,12 @@ export default function PoolVolumeCalculatorClient() {
       return length * width * depth * 1000
     }
 
+    if (dimensions.shape === 'oval') {
+      const a = length / 2
+      const b = width / 2
+      return Math.PI * a * b * depth * 1000
+    }
+
     const radius = length / 2
     return Math.PI * radius * radius * depth * 1000
   }
@@ -153,8 +159,8 @@ export default function PoolVolumeCalculatorClient() {
                 <span className="material-icons-round text-blue-500">pool</span>
                 Wybierz kształt basenu
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className="cursor-pointer relative">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <label className="cursor-pointer relative h-full">
                   <input
                     checked={dimensions.shape === 'rectangle'}
                     onChange={() => setDimensions((prev) => ({ ...prev, shape: 'rectangle' }))}
@@ -162,16 +168,31 @@ export default function PoolVolumeCalculatorClient() {
                     name="pool_shape"
                     type="radio"
                   />
-                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-blue-50 peer-checked:border-blue-500 peer-checked:bg-blue-100 transition-all flex items-center gap-3">
+                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-blue-50 peer-checked:border-blue-500 peer-checked:bg-blue-100 transition-all flex items-center gap-3 h-full">
                     <span className="material-icons-round text-slate-400 peer-checked:text-blue-500">crop_landscape</span>
                     <div>
                       <span className="font-medium text-slate-700">Prostokątny</span>
-                      <span className="text-sm text-slate-500 block">Standardowy kształt</span>
+                      <span className="text-sm text-slate-500 block">Najpopularniejszy kształt</span>
                     </div>
                   </div>
                 </label>
-
-                <label className="cursor-pointer relative">
+                <label className="cursor-pointer relative h-full">
+                  <input
+                    checked={dimensions.shape === 'oval'}
+                    onChange={() => setDimensions((prev) => ({ ...prev, shape: 'oval' }))}
+                    className="peer sr-only"
+                    name="pool_shape"
+                    type="radio"
+                  />
+                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all flex items-center gap-3 h-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-slate-400 peer-checked:text-blue-500"><ellipse cx="12" cy="12" rx="10" ry="6" /></svg>
+                    <div>
+                      <span className="font-medium text-slate-700">Owalny</span>
+                      <span className="text-sm text-slate-500 block">Zaokrąglone boki</span>
+                    </div>
+                  </div>
+                </label>
+                <label className="cursor-pointer relative h-full">
                   <input
                     checked={dimensions.shape === 'round'}
                     onChange={() => setDimensions((prev) => ({ ...prev, shape: 'round' }))}
@@ -179,11 +200,11 @@ export default function PoolVolumeCalculatorClient() {
                     name="pool_shape"
                     type="radio"
                   />
-                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all flex items-center gap-3">
+                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all flex items-center gap-3 h-full">
                     <span className="material-icons-round text-slate-400 peer-checked:text-blue-500">circle</span>
                     <div>
                       <span className="font-medium text-slate-700">Okrągły</span>
-                      <span className="text-sm text-slate-500 block">Basen rozporowy/stelażowy</span>
+                      <span className="text-sm text-slate-500 block">Symetryczny kształt</span>
                     </div>
                   </div>
                 </label>
@@ -236,7 +257,7 @@ export default function PoolVolumeCalculatorClient() {
                   </div>
                 </div>
 
-                {dimensions.shape === 'rectangle' && (
+                {(dimensions.shape === 'rectangle' || dimensions.shape === 'oval') && (
                   <div>
                     <label className="block text-base font-medium text-slate-900 mb-2">Szerokość basenu</label>
                     <div className="relative">
