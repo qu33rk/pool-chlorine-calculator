@@ -7,20 +7,30 @@ interface PoolDimensions {
   length: number | ''
   width: number | ''
   depth: number | ''
-  shape: 'rectangle' | 'round'
+  shape: 'rectangle' | 'round' | 'oval'
 }
 
 interface PhProduct {
   name: string
+  namePlus?: string
   minusPer10m3Per01: number
   plusPer10m3Per01: number
   unit: 'g'
+  allegroUrlMinus?: string
+  allegroUrlPlus?: string
+  image?: string
+  imagePlus?: string
 }
 
 interface CalculatedPhProduct {
   name: string
+  namePlus?: string
   phMinus: string
   phPlus: string
+  allegroUrlMinus?: string
+  allegroUrlPlus?: string
+  image?: string
+  imagePlus?: string
 }
 
 export default function PhWaterCalculatorClient() {
@@ -38,10 +48,10 @@ export default function PhWaterCalculatorClient() {
   const [products, setProducts] = useState<CalculatedPhProduct[] | null>(null)
 
   const phProducts: PhProduct[] = [
-    { name: 'Chemoform', minusPer10m3Per01: 150, plusPer10m3Per01: 150, unit: 'g' },
-    { name: 'HTH', minusPer10m3Per01: 150, plusPer10m3Per01: 150, unit: 'g' },
-    { name: 'AstralPool', minusPer10m3Per01: 150, plusPer10m3Per01: 150, unit: 'g' },
-    { name: 'Bayrol', minusPer10m3Per01: 200, plusPer10m3Per01: 200, unit: 'g' },
+    { name: 'Gamix pH Minus', namePlus: 'Gamix pH Plus', minusPer10m3Per01: 100, plusPer10m3Per01: 100, unit: 'g', allegroUrlMinus: 'https://allegro.pl/oferta/gamix-regulator-ph-minus-granulat-4-5kg-do-basenu-obniza-ph-wody-ph-18444785220?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=7cf0f344eb4c#', allegroUrlPlus: 'https://allegro.pl/oferta/ph-plus-do-basenu-regulator-ph-wody-chemia-basenowa-4kg-gamix-do-2030-15579385986?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=43bc5287b516#', image: '/gamix-ph-minus.jpg', imagePlus: '/gamix-ph-plus.jpg' },
+    { name: 'Bayrol pH Minus', namePlus: 'Bayrol pH Plus', minusPer10m3Per01: 100, plusPer10m3Per01: 100, unit: 'g', allegroUrlMinus: 'https://allegro.pl/oferta/bayrol-ph-minus-6kg-za-wysokie-ph-wody-basen-12548095642?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=0e5ead213d2f#', allegroUrlPlus: 'https://allegro.pl/oferta/granulat-podwyzszanie-ph-wody-w-basenie-bayrol-ph-plus-regulator-ph-5kg-15383077624?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=9b5d55b61603#', image: '/bayrol-ph-minus.jpg', imagePlus: '/bayrol-ph-plus.jpg' },
+    { name: 'Chemoform pH Minus', namePlus: 'Chemoform pH Plus', minusPer10m3Per01: 75, plusPer10m3Per01: 50, unit: 'g', allegroUrlMinus: 'https://allegro.pl/oferta/granulat-chemoform-ph-minus-5-kg-do-obnizania-ph-w-wodzie-basenowej-18358141481?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=fa2b0852d053#', allegroUrlPlus: 'https://allegro.pl/oferta/ph-plus-chemia-basenowa-do-podwyzszania-ph-wody-basen-jacuzi-chemoform-3kg-7466775137?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=a002400f1ff3#', image: '/chemoform-ph-minus.jpg', imagePlus: '/chemoform-ph-plus.jpg' },
+    { name: 'HTH pH Minus', minusPer10m3Per01: 75, plusPer10m3Per01: 0, unit: 'g', allegroUrlMinus: 'https://allegro.pl/oferta/hth-ph-minus-obniza-ph-wody-granulat-do-basenu-5kg-9841789849?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=55de00fec060#', image: '/hth-ph-minus.jpg' },
   ]
 
   const calculateVolumeLiters = (): number => {
@@ -51,6 +61,12 @@ export default function PhWaterCalculatorClient() {
 
     if (dimensions.shape === 'rectangle') {
       return length * width * depth * 1000
+    }
+
+    if (dimensions.shape === 'oval') {
+      const a = length / 2
+      const b = width / 2
+      return Math.PI * a * b * depth * 1000
     }
 
     const radius = length / 2
@@ -88,20 +104,31 @@ export default function PhWaterCalculatorClient() {
 
     const steps01 = Math.round((Math.abs(delta) / 0.1) * 100) / 100
 
-    const calculated = phProducts.map((p) => {
+    const relevantProducts = phProducts.filter((p) => {
+      if (delta > 0) return p.plusPer10m3Per01 > 0
+      if (delta < 0) return p.minusPer10m3Per01 > 0
+      return true
+    })
+
+    const calculated = relevantProducts.map((p) => {
       const minusGrams = volumeM3 * (p.minusPer10m3Per01 / 10) * steps01
       const plusGrams = volumeM3 * (p.plusPer10m3Per01 / 10) * steps01
 
       const showMinus = delta < 0
       const showPlus = delta > 0
 
-      const minusText = steps01 === 0 ? '—' : showMinus ? `${Math.round(minusGrams)} ${p.unit}` : '—'
-      const plusText = steps01 === 0 ? '—' : showPlus ? `${Math.round(plusGrams)} ${p.unit}` : '—'
+      const minusText = steps01 === 0 ? '—' : showMinus ? (p.minusPer10m3Per01 > 0 ? `${Math.round(minusGrams)} ${p.unit}` : 'nie dotyczy') : '—'
+      const plusText = steps01 === 0 ? '—' : showPlus ? (p.plusPer10m3Per01 > 0 ? `${Math.round(plusGrams)} ${p.unit}` : 'nie dotyczy') : '—'
 
       return {
         name: p.name,
+        namePlus: p.namePlus,
         phMinus: minusText,
         phPlus: plusText,
+        allegroUrlMinus: p.allegroUrlMinus,
+        allegroUrlPlus: p.allegroUrlPlus,
+        image: p.image,
+        imagePlus: p.imagePlus,
       }
     })
 
@@ -119,8 +146,8 @@ export default function PhWaterCalculatorClient() {
                 <span className="material-icons-round text-blue-500">pool</span>
                 Wybierz kształt basenu
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className="cursor-pointer relative">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <label className="cursor-pointer relative h-full">
                   <input
                     checked={dimensions.shape === 'rectangle'}
                     onChange={() => setDimensions((prev) => ({ ...prev, shape: 'rectangle' }))}
@@ -128,7 +155,7 @@ export default function PhWaterCalculatorClient() {
                     name="pool_shape"
                     type="radio"
                   />
-                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-blue-50 peer-checked:border-blue-500 peer-checked:bg-blue-100 transition-all flex items-center gap-3">
+                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-blue-50 peer-checked:border-blue-500 peer-checked:bg-blue-100 transition-all flex items-center gap-3 h-full">
                     <span className="material-icons-round text-slate-400 peer-checked:text-blue-500">crop_landscape</span>
                     <div>
                       <span className="font-medium text-slate-700">Prostokątny</span>
@@ -136,8 +163,23 @@ export default function PhWaterCalculatorClient() {
                     </div>
                   </div>
                 </label>
-
-                <label className="cursor-pointer relative">
+                <label className="cursor-pointer relative h-full">
+                  <input
+                    checked={dimensions.shape === 'oval'}
+                    onChange={() => setDimensions((prev) => ({ ...prev, shape: 'oval' }))}
+                    className="peer sr-only"
+                    name="pool_shape"
+                    type="radio"
+                  />
+                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all flex items-center gap-3 h-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-slate-400 peer-checked:text-blue-500"><ellipse cx="12" cy="12" rx="10" ry="6" /></svg>
+                    <div>
+                      <span className="font-medium text-slate-700">Owalny</span>
+                      <span className="text-sm text-slate-500 block">Zaokrąglone boki</span>
+                    </div>
+                  </div>
+                </label>
+                <label className="cursor-pointer relative h-full">
                   <input
                     checked={dimensions.shape === 'round'}
                     onChange={() => setDimensions((prev) => ({ ...prev, shape: 'round' }))}
@@ -145,11 +187,11 @@ export default function PhWaterCalculatorClient() {
                     name="pool_shape"
                     type="radio"
                   />
-                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all flex items-center gap-3">
+                  <div className="p-4 rounded-xl border-2 border-slate-200 bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all flex items-center gap-3 h-full">
                     <span className="material-icons-round text-slate-400 peer-checked:text-blue-500">circle</span>
                     <div>
                       <span className="font-medium text-slate-700">Okrągły</span>
-                      <span className="text-sm text-slate-500 block">Basen rozporowy/stelażowy</span>
+                      <span className="text-sm text-slate-500 block">Symetryczny kształt</span>
                     </div>
                   </div>
                 </label>
@@ -201,7 +243,7 @@ export default function PhWaterCalculatorClient() {
                   </div>
                 </div>
 
-                {dimensions.shape === 'rectangle' && (
+                {(dimensions.shape === 'rectangle' || dimensions.shape === 'oval') && (
                   <div>
                     <label className="block text-base font-medium text-slate-900 mb-2">Szerokość basenu</label>
                     <div className="relative">
@@ -357,11 +399,15 @@ export default function PhWaterCalculatorClient() {
                   {products.map((product) => (
                     <div key={product.name} className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
                       <div className="p-4 flex gap-4">
-                        <div className="w-20 h-20 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 text-xs shrink-0">
-                          image
+                        <div className="w-20 h-20 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 overflow-hidden">
+                          {(delta < 0 ? product.image : product.imagePlus) ? (
+                            <img src={delta < 0 ? product.image : product.imagePlus} alt={product.name} className="max-w-full max-h-full object-contain p-1" />
+                          ) : (
+                            <span className="material-icons-round text-3xl text-slate-300">science</span>
+                          )}
                         </div>
                         <div className="min-w-0">
-                          <div className="font-semibold text-slate-900 leading-tight">{product.name}</div>
+                          <div className="font-semibold text-slate-900 leading-tight">{delta < 0 ? product.name : (product.namePlus || product.name)}</div>
                           <div className="text-sm text-slate-500 mt-1">Dawki dla Twojej objętości</div>
                         </div>
                       </div>
@@ -378,6 +424,35 @@ export default function PhWaterCalculatorClient() {
                           </div>
                         </div>
                       </div>
+
+                      {((product.allegroUrlMinus && delta < 0) || (product.allegroUrlPlus && delta > 0)) && (
+                        <div className="border-t border-slate-200 p-4">
+                          {delta < 0 && product.allegroUrlMinus && (
+                            <a
+                              href="javascript:void(0)"
+                              data-href={product.allegroUrlMinus}
+                              onClick={(e) => { e.preventDefault(); window.open(product.allegroUrlMinus, '_blank', 'noopener,noreferrer') }}
+                              rel="sponsored nofollow"
+                              className="w-full inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors"
+                            >
+                              <span className="material-icons-round text-lg">shopping_cart</span>
+                              Kup teraz na Allegro
+                            </a>
+                          )}
+                          {delta > 0 && product.allegroUrlPlus && (
+                            <a
+                              href="javascript:void(0)"
+                              data-href={product.allegroUrlPlus}
+                              onClick={(e) => { e.preventDefault(); window.open(product.allegroUrlPlus, '_blank', 'noopener,noreferrer') }}
+                              rel="sponsored nofollow"
+                              className="w-full inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors"
+                            >
+                              <span className="material-icons-round text-lg">shopping_cart</span>
+                              Kup teraz na Allegro
+                            </a>
+                          )}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
