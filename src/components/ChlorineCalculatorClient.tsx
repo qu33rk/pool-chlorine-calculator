@@ -17,6 +17,8 @@ interface GranularProduct {
   shockCloudy: number
   shockAlgae: number
   unit: string
+  allegroUrl?: string
+  image?: string
 }
 
 interface CalculatedProduct {
@@ -24,6 +26,8 @@ interface CalculatedProduct {
   firstFill: string
   shockCloudy: string
   shockAlgae: string
+  allegroUrl?: string
+  image?: string
 }
 
 interface CalculationResult {
@@ -43,10 +47,10 @@ export default function ChlorineCalculatorClient() {
 
   // Real granular chlorine products from reference table (dosage per 10 m³ in grams, converted to per m³)
   const granularProducts: GranularProduct[] = [
-    { name: 'Chemoform T65', firstFillMin: 3.5, firstFillMax: 8, shockCloudy: 7, shockAlgae: 10, unit: 'g' },
-    { name: 'HTH Shock', firstFillMin: 0, firstFillMax: null, shockCloudy: 15, shockAlgae: 25, unit: 'g' },
-    { name: 'AstralPool Szok', firstFillMin: 1, firstFillMax: 3, shockCloudy: 15, shockAlgae: 0, unit: 'g' },
-    { name: 'Bayrol Chlorifix', firstFillMin: 5, firstFillMax: null, shockCloudy: 20, shockAlgae: 20, unit: 'g' },
+    { name: 'Gamix Chlor Szok', firstFillMin: 10, firstFillMax: null, shockCloudy: 20, shockAlgae: 20, unit: 'g', allegroUrl: 'https://allegro.pl/oferta/chlor-szok-do-basenu-granulat-chemia-basenowa-1kg-gamix-11978090176?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=1a65ef2b229b#', image: '/gamix-chlor-szok.jpg' },
+    { name: 'Bayrol Chlorifix', firstFillMin: 5, firstFillMax: null, shockCloudy: 20, shockAlgae: 20, unit: 'g', allegroUrl: 'https://allegro.pl/oferta/bayrol-chlorifix-1kg-chlorowanie-szokowe-wody-12548364060?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=0256271a4966#', image: '/chlorifix.jpg' },
+    { name: 'Chemoform T65', firstFillMin: 3.5, firstFillMax: 8, shockCloudy: 7, shockAlgae: 10, unit: 'g', allegroUrl: 'https://allegro.pl/oferta/chlor-szok-chemochlor-t-chemoform-granulat-chemia-basenowa-1kg-17379865358?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=bff60522d45a#', image: '/chemochlor-t65.jpg' },
+    { name: 'HTH Shock', firstFillMin: 0, firstFillMax: null, shockCloudy: 15, shockAlgae: 25, unit: 'g', allegroUrl: 'https://allegro.pl/oferta/hth-szokowy-chlor-granulat-2kg-14856077398?utm_medium=afiliacja&utm_source=ctr_2&utm_campaign=d20953fc-d7a0-439f-a0d9-ef4f03649fc1&utm_content=49d8d81bbd8a#', image: '/hth-shock.webp' },
   ]
 
   const calculateVolume = (): number => {
@@ -82,6 +86,8 @@ export default function ChlorineCalculatorClient() {
         firstFill: firstFillDosage,
         shockCloudy: shockCloudyDosage,
         shockAlgae: shockAlgaeDosage,
+        allegroUrl: product.allegroUrl,
+        image: product.image,
       }
     })
 
@@ -296,8 +302,12 @@ export default function ChlorineCalculatorClient() {
                   {result.products.map((product) => (
                     <div key={product.name} className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
                       <div className="p-4 flex gap-4">
-                        <div className="w-20 h-20 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 text-xs shrink-0">
-                          image
+                        <div className="w-20 h-20 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 overflow-hidden">
+                          {product.image ? (
+                            <img src={product.image} alt={product.name} className="max-w-full max-h-full object-contain p-1" />
+                          ) : (
+                            <span className="material-icons-round text-3xl text-slate-300">science</span>
+                          )}
                         </div>
                         <div className="min-w-0">
                           <div className="font-semibold text-slate-900 leading-tight">{product.name}</div>
@@ -321,6 +331,21 @@ export default function ChlorineCalculatorClient() {
                           </div>
                         </div>
                       </div>
+
+                      {product.allegroUrl !== undefined && (
+                        <div className="border-t border-slate-200 p-4">
+                          <a
+                            href={product.allegroUrl}
+                            data-href={product.allegroUrl}
+                            target="_blank"
+                            rel="sponsored nofollow"
+                            className="w-full inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors"
+                          >
+                            <span className="material-icons-round text-lg">shopping_cart</span>
+                            Kup teraz na Allegro
+                          </a>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
