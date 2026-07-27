@@ -429,7 +429,7 @@ export default function PhWaterCalculatorClient() {
                         <div className="border-t border-slate-200 p-4">
                           {delta < 0 && product.allegroUrlMinus && (
                             <a
-                              href="javascript:void(0)"
+                              href="#"
                               data-href={product.allegroUrlMinus}
                               onClick={(e) => { e.preventDefault(); window.open(product.allegroUrlMinus, '_blank', 'noopener,noreferrer') }}
                               rel="sponsored nofollow"
@@ -441,7 +441,7 @@ export default function PhWaterCalculatorClient() {
                           )}
                           {delta > 0 && product.allegroUrlPlus && (
                             <a
-                              href="javascript:void(0)"
+                              href="#"
                               data-href={product.allegroUrlPlus}
                               onClick={(e) => { e.preventDefault(); window.open(product.allegroUrlPlus, '_blank', 'noopener,noreferrer') }}
                               rel="sponsored nofollow"
