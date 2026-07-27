@@ -357,7 +357,7 @@ export default function ChlorineCalculatorClient() {
                       {product.allegroUrl !== undefined && (
                         <div className="border-t border-slate-200 p-4">
                           <a
-                            href="javascript:void(0)"
+                            href="#"
                             data-href={product.allegroUrl}
                             onClick={(e) => {
                               e.preventDefault()
