@@ -21,7 +21,7 @@ function renderMark(text: string, marks: string[], markDefs: Block['markDefs']) 
   return node
 }
 
-function BlockRenderer({ block }: { block: Block }) {
+function BlockRenderer({ block, headingId }: { block: Block; headingId?: string }) {
   if (block._type === 'image') {
     return (
       <figure className="my-8">
@@ -48,8 +48,8 @@ function BlockRenderer({ block }: { block: Block }) {
   const cls = 'my-4'
 
   switch (block.style) {
-    case 'h2': return <h2 className="text-2xl font-bold text-slate-900 mt-10 mb-4">{children}</h2>
-    case 'h3': return <h3 className="text-xl font-bold text-slate-900 mt-8 mb-3">{children}</h3>
+    case 'h2': return <h2 id={headingId} className="text-2xl font-bold text-slate-900 mt-10 mb-4 scroll-mt-20">{children}</h2>
+    case 'h3': return <h3 id={headingId} className="text-xl font-bold text-slate-900 mt-8 mb-3 scroll-mt-20">{children}</h3>
     case 'h4': return <h4 className="text-lg font-semibold text-slate-900 mt-6 mb-2">{children}</h4>
     case 'blockquote':
       return (
@@ -62,11 +62,11 @@ function BlockRenderer({ block }: { block: Block }) {
   }
 }
 
-export function PortableText({ blocks }: { blocks: Block[] }) {
+export function PortableText({ blocks, headingIds }: { blocks: Block[]; headingIds?: Map<string, string> }) {
   return (
     <div className="prose max-w-none">
       {blocks.map((block) => (
-        <BlockRenderer key={block._key} block={block} />
+        <BlockRenderer key={block._key} block={block} headingId={headingIds?.get(block._key)} />
       ))}
     </div>
   )

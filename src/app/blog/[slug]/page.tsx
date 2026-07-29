@@ -4,9 +4,12 @@ import { notFound } from 'next/navigation'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
+import { TableOfContents } from '@/components/TableOfContents'
 import { getAllPostSlugs, getPostBySlug } from '@/sanity/queries'
 import type { Block } from '@/sanity/queries'
 import { PortableText } from '@/sanity/portable-text'
+import { extractTocFromBlocks, parseHeadingsAndInjectIds } from '@/lib/toc'
+import type { TocItem } from '@/lib/toc'
 
 export const dynamic = 'force-static'
 export const dynamicParams = false
@@ -53,6 +56,20 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getPostBySlug(slug)
   if (!post) notFound()
 
+  let tocItems: TocItem[] = []
+  let headingIds: Map<string, string> | undefined
+  let articleHtml: string | undefined
+
+  if (post.body && typeof post.body === 'string') {
+    const parsed = parseHeadingsAndInjectIds(post.body)
+    articleHtml = parsed.content
+    tocItems = parsed.toc
+  } else if (post.body && Array.isArray(post.body)) {
+    const extracted = extractTocFromBlocks(post.body as Block[])
+    headingIds = extracted.headingIds
+    tocItems = extracted.toc
+  }
+
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://basenomat.pl'
   const base = SITE_URL.replace(/\/$/, '')
 
@@ -89,6 +106,8 @@ export default async function BlogPostPage({ params }: Props) {
           { label: post.title },
         ]}
       />
+
+      <TableOfContents items={tocItems} />
 
       <main className="py-10">
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -148,9 +167,9 @@ export default async function BlogPostPage({ params }: Props) {
               typeof post.body === 'string'
                 ? <div
                     className="prose prose-slate max-w-none prose-headings:font-bold prose-h2:text-2xl prose-h3:text-xl prose-p:leading-relaxed prose-a:text-blue-600 prose-blockquote:border-blue-400 prose-blockquote:text-slate-600"
-                    dangerouslySetInnerHTML={{ __html: post.body }}
+                    dangerouslySetInnerHTML={{ __html: articleHtml ?? '' }}
                   />
-                : <PortableText blocks={post.body as Block[]} />
+                : <PortableText blocks={post.body as Block[]} headingIds={headingIds} />
             )}
           </div>
         </article>
